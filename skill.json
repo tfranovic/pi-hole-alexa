@@ -5,9 +5,9 @@
         "en-US": {
           "summary": "Alexa skill acting as PiHole controller",
           "examplePhrases": [
-            "Alexa open PiHole",
-            "pihole",
-            "pihole status"
+            "Alexa open Pi Hole",
+            "pi hole",
+            "pi hole status"
           ],
           "name": "PiHole Alexa",
           "description": "Alexa skill that allows users to interface with their PiHole setup"
