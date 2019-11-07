@@ -1,0 +1,31 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "Alexa skill acting as PiHole controller",
+          "examplePhrases": [
+            "Alexa open PiHole",
+            "pihole",
+            "pihole status"
+          ],
+          "name": "PiHole Alexa",
+          "description": "Alexa skill that allows users to interface with their PiHole setup"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Sample Testing Instructions.",
+      "category": "SMART_HOME",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "sourceDir": "lambda/py",
+          "uri": "ask-custom-pihole-alexa-default"
+        }
+      }
+    },
+    "manifestVersion": "1.0"
+  }
+}

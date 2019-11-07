@@ -1,0 +1,39 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "pihole",
+            "intents": [
+                {
+                    "name": "AMAZON.FallbackIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "StatusIntent",
+                    "slots": [],
+                    "samples": [
+                        "status",
+                        "show status",
+                        "what is the status",
+                        "display status",
+                        "ask status",
+                        "ask for status",
+                        "status update"
+                    ]
+                }
+            ],
+            "types": []
+        }
+    }
+}
