@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "pi hole",
+            "invocationName": "pi hole blocker",
             "intents": [
                 {
                     "name": "AMAZON.FallbackIntent",
@@ -29,7 +29,8 @@
                         "display status",
                         "ask status",
                         "ask for status",
-                        "status update"
+                        "status update",
+                        "current status"
                     ]
                 }
             ],

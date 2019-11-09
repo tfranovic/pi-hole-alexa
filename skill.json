@@ -3,18 +3,18 @@
     "publishingInformation": {
       "locales": {
         "en-US": {
-          "summary": "Alexa skill acting as PiHole controller",
+          "summary": "Alexa skill to control your Pi-hole",
           "examplePhrases": [
-            "Alexa open Pi Hole",
-            "pi hole",
-            "pi hole status"
+            "Alexa launch Pi Hole Blocker",
+            "pi hole blocker",
+            "pi hole blocker status"
           ],
-          "name": "PiHole Alexa",
-          "description": "Alexa skill that allows users to interface with their PiHole setup"
+          "name": "Pi-hole Blocker",
+          "description": "Alexa skill that allows users to interface with their Pi-hole setup"
         }
       },
       "isAvailableWorldwide": true,
-      "testingInstructions": "Sample Testing Instructions.",
+      "testingInstructions": "1) Say 'Alexa ask Pi Hole Blocker the current status'",
       "category": "SMART_HOME",
       "distributionCountries": []
     },

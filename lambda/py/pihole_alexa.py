@@ -11,32 +11,50 @@ from ask_sdk_core.handler_input import HandlerInput
 from ask_sdk_model.ui import SimpleCard
 from ask_sdk_model import Response
 
+import pihole
+import os
+
+from intents.status_intent import StatusIntent
+
 sb = SkillBuilder()
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
+
+pihole_server = os.environ['PIHOLE_SERVER']
+pihole_images = os.environ['PIHOLE_IMAGES']
+
+pihole_client = pihole.PiHole(pihole_server)
 
 
 @sb.request_handler(can_handle_func=is_request_type("LaunchRequest"))
 def launch_request_handler(handler_input: HandlerInput) -> Response:
     """Handler for Skill Launch."""
 
-    speech_text = "Welcome to the Alexa Pi Hole skill, you can say 'show status'!"
+    pihole_client.refresh()
 
-    return handler_input.response_builder.speak(speech_text).set_card(
-        SimpleCard("PiHole Alexa", speech_text)).set_should_end_session(
-        False).response
+    status_intent = StatusIntent(pihole_client, pihole_images)
+
+    speech_text = "Welcome to the Alexa Pi Hole skill, here's the current status! " + status_intent.get_speech_message()
+
+    response_builder = handler_input.response_builder.speak(speech_text).set_card(
+        status_intent.get_card()).set_should_end_session(False)
+
+    return response_builder.response
 
 
 @sb.request_handler(can_handle_func=is_intent_name("StatusIntent"))
 def status_intent_handler(handler_input: HandlerInput) -> Response:
     """Handler for Status Intent."""
 
-    speech_text = "I'm sorry, currently I can't display any status!"
+    pihole_client.refresh()
 
-    return handler_input.response_builder.speak(speech_text).set_card(
-        SimpleCard("PiHole Alexa", speech_text)).set_should_end_session(
-        True).response
+    status_intent = StatusIntent(pihole_client, pihole_images)
+
+    response_builder = handler_input.response_builder.speak(status_intent.get_speech_message()).set_card(
+        status_intent.get_card()).set_should_end_session(True)
+
+    return response_builder.response
 
 
 @sb.request_handler(can_handle_func=is_intent_name("AMAZON.HelpIntent"))
@@ -47,7 +65,7 @@ def help_intent_handler(handler_input: HandlerInput) -> Response:
 
     return handler_input.response_builder.speak(speech_text).ask(
         speech_text).set_card(SimpleCard(
-            "PiHole Alexa", speech_text)).response
+            "Pi-hole Alexa", speech_text)).response
 
 
 @sb.request_handler(
@@ -60,7 +78,7 @@ def cancel_and_stop_intent_handler(handler_input: HandlerInput) -> Response:
     speech_text = "Goodbye!"
 
     return handler_input.response_builder.speak(speech_text).set_card(
-        SimpleCard("PiHole Alexa", speech_text)).response
+        SimpleCard("Pi-hole Alexa", speech_text)).response
 
 
 @sb.request_handler(can_handle_func=is_intent_name("AMAZON.FallbackIntent"))
