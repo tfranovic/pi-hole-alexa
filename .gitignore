@@ -1,3 +1,5 @@
 .idea/
 .venv/
 *.pyc
+lambda_upload/
+*.jsonn

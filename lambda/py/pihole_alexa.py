@@ -27,6 +27,11 @@ pihole_images = os.environ['PIHOLE_IMAGES']
 pihole_client = pihole.PiHole(pihole_server)
 
 
+def supports_apl(handler_input):
+
+    return handler_input.request_envelope.context.system.device.supported_interfaces.alexa_presentation_apl is not None
+
+
 @sb.request_handler(can_handle_func=is_request_type("LaunchRequest"))
 def launch_request_handler(handler_input: HandlerInput) -> Response:
     """Handler for Skill Launch."""
@@ -39,6 +44,9 @@ def launch_request_handler(handler_input: HandlerInput) -> Response:
 
     response_builder = handler_input.response_builder.speak(speech_text).set_card(
         status_intent.get_card()).set_should_end_session(False)
+
+    if supports_apl(handler_input):
+        response_builder.add_directive(status_intent.get_apl_directive())
 
     return response_builder.response
 
@@ -53,6 +61,9 @@ def status_intent_handler(handler_input: HandlerInput) -> Response:
 
     response_builder = handler_input.response_builder.speak(status_intent.get_speech_message()).set_card(
         status_intent.get_card()).set_should_end_session(True)
+
+    if supports_apl(handler_input):
+        response_builder.add_directive(status_intent.get_apl_directive())
 
     return response_builder.response
 

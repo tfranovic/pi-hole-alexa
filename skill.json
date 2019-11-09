@@ -23,7 +23,12 @@
         "endpoint": {
           "sourceDir": "lambda/py",
           "uri": "ask-custom-pihole-alexa-default"
-        }
+        },
+        "interfaces": [
+          {
+            "type":"ALEXA_PRESENTATION_APL"
+          }
+        ]
       }
     },
     "manifestVersion": "1.0"

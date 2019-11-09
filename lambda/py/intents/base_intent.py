@@ -1,5 +1,6 @@
 from pihole import PiHole
 from ask_sdk_model.ui import Card
+from ask_sdk_model.directive import Directive
 
 
 class BaseIntent:
@@ -18,4 +19,7 @@ class BaseIntent:
         raise NotImplementedError("Abstract class!")
 
     def get_card(self) -> Card:
+        raise NotImplementedError("Abstract class!")
+
+    def get_apl_directive(self) -> Directive:
         raise NotImplementedError("Abstract class!")
