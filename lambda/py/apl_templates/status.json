@@ -27,7 +27,7 @@
             {
                 "description": "Standard font sizes",
                 "dimensions": {
-                    "textSizeBody": 48,
+                    "textSizeBody": 27,
                     "textSizePrimary": 27,
                     "textSizeSecondary": 23,
                     "textSizeDetails": 20,
@@ -151,45 +151,53 @@
                 ],
                 "item": [
                     {
-                        "type": "Container",
-                        "width": "100vw",
-                        "height": "100vh",
-                        "direction": "column",
-                        "items": [
+                        "type": "Frame",
+                        "item": [
                             {
-                                "type": "Image",
-                                "source": "${backgroundImage}",
-                                "scale": "best-fill",
+                                "type": "Container",
+                                "opacity": 1,
                                 "width": "100vw",
                                 "height": "100vh",
-                                "position": "absolute"
-                            },
-                            {
-                                "type": "AlexaHeader",
-                                "headerTitle": "${title}",
-                                "headerAttributionImage": "${logo}",
-                                "headerBackgroundColor": "#367fa9"
-                            },
-                            {
-                                "type": "Sequence",
-                                "height": "80vh",
-                                "paddingLeft": "@marginLeft",
-                                "paddingRight": "@marginRight",
-                                "data": "${listData}",
-                                "scrollDirection": "vertical",
+                                "direction": "column",
                                 "items": [
                                     {
-                                        "primaryText": "${data.textContent.primaryText.text}",
-                                        "secondaryText": "${data.textContent.secondaryText.text}",
-                                        "tertiaryText": "${data.textContent.tertiaryText.text}",
-                                        "image": "${data.image.smallSourceUrl}",
-                                        "bgColor": "${data.color.bgColor}",
-                                        "type": "VerticalListItem"
+                                        "headerTitle": "${title}",
+                                        "headerSubtitle": "Status Dashboard",
+                                        "headerAttributionImage": "${logo}",
+                                        "headerBackButton": true,
+                                        "headerBackgroundColor": "#3c8dbc",
+                                        "type": "AlexaHeader"
+                                    },
+                                    {
+                                        "type": "Frame",
+                                        "shadowColor": "#3c8dbc",
+                                        "shadowRadius": "25",
+                                        "backgroundColor": "#3c8dbc",
+                                        "borderRadius": "20"
+                                    },
+                                    {
+                                        "type": "Sequence",
+                                        "height": "80vh",
+                                        "paddingLeft": "@marginLeft",
+                                        "paddingRight": "@marginRight",
+                                        "data": "${listData}",
+                                        "scrollDirection": "vertical",
+                                        "items": [
+                                            {
+                                                "primaryText": "${data.textContent.primaryText.text}",
+                                                "secondaryText": "${data.textContent.secondaryText.text}",
+                                                "tertiaryText": "${data.textContent.tertiaryText.text}",
+                                                "image": "${data.image.smallSourceUrl}",
+                                                "bgColor": "${data.color.bgColor}",
+                                                "type": "VerticalListItem"
+                                            }
+                                        ],
+                                        "grow": 1
                                     }
-                                ],
-                                "grow": 1
+                                ]
                             }
-                        ]
+                        ],
+                        "backgroundColor": "#ecf0f5"
                     }
                 ]
             },
@@ -265,13 +273,17 @@
                     },
                     {
                         "type": "Frame",
+                        "paddingTop": "0",
+                        "paddingBottom": "0",
+                        "shadowColor": "${bgColor}",
+                        "shadowRadius": "25",
                         "item": [
                             {
                                 "type": "Container",
-                                "direction": "row",
-                                "height": 125,
                                 "width": 800,
+                                "height": "100",
                                 "alignItems": "center",
+                                "direction": "row",
                                 "items": [
                                     {
                                         "type": "Text",
@@ -305,12 +317,12 @@
                                             },
                                             {
                                                 "type": "Text",
-                                                "text": "${secondaryText}",
                                                 "style": "textStyleDetails",
-                                                "fontWeight": "300",
                                                 "grow": 1,
                                                 "shrink": 1,
-                                                "maxLines": 1
+                                                "maxLines": 1,
+                                                "text": "${secondaryText}",
+                                                "fontWeight": "300"
                                             }
                                         ],
                                         "spacing": "30"
@@ -329,9 +341,10 @@
                             }
                         ],
                         "backgroundColor": "${bgColor}",
-                        "borderColor": "white",
+                        "borderColor": "#ecf0f5",
                         "borderRadius": "20",
-                        "borderWidth": "2"
+                        "borderWidth": "5",
+                        "spacing": "10"
                     }
                 ]
             }
