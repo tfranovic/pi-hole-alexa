@@ -41,6 +41,21 @@
                         "enable blocker",
                         "enable blocking"
                     ]
+                },{
+                    "name": "DisableIntent",
+                    "slots": [
+                        {
+                            "name": "Duration",
+                            "type": "AMAZON.NUMBER"
+                        }
+                    ],
+                    "samples": [
+                        "disable",
+                        "disable blocker",
+                        "disable for {Duration} minutes",
+                        "disable blocker for {Duration} minutes",
+                        "disable blocking for {Duration} minutes"
+                    ]
                 }
             ],
             "types": []

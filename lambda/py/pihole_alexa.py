@@ -18,6 +18,7 @@ import os
 from intents.base_intent import BaseIntent
 from intents.status_intent import StatusIntent
 from intents.enable_intent import EnableIntent
+from intents.disable_intent import DisableIntent
 
 sb = SkillBuilder()
 
@@ -92,6 +93,21 @@ def enable_intent_handler(handler_input: HandlerInput) -> Response:
     enable_intent = EnableIntent(pihole_client, pihole_images)
 
     return handle_base_intent(handler_input, enable_intent)
+
+
+@sb.request_handler(can_handle_func=is_intent_name("DisableIntent"))
+@client_refresh
+def disable_intent_handler(handler_input: HandlerInput) -> Response:
+    """Handler for Disable Intent."""
+
+    slots = handler_input.request_envelope.request.intent.slots
+
+    if 'Duration' in slots and slots['Duration'].value is not None:
+        disable_intent = DisableIntent(pihole_client, pihole_images, slots['Duration'].value)
+    else:
+        disable_intent = DisableIntent(pihole_client, pihole_images)
+
+    return handle_base_intent(handler_input, disable_intent)
 
 
 @sb.request_handler(can_handle_func=is_intent_name("AMAZON.HelpIntent"))
