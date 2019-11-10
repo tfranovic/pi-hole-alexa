@@ -32,6 +32,15 @@
                         "status update",
                         "current status"
                     ]
+                },
+                {
+                    "name": "EnableIntent",
+                    "slots": [],
+                    "samples": [
+                        "enable",
+                        "enable blocker",
+                        "enable blocking"
+                    ]
                 }
             ],
             "types": []

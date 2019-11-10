@@ -3,6 +3,7 @@
 # This is a simple Hello World Alexa Skill, built using
 # the decorators approach in skill builder.
 import logging
+from functools import wraps
 
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.utils import is_request_type, is_intent_name
@@ -14,7 +15,9 @@ from ask_sdk_model import Response
 import pihole
 import os
 
+from intents.base_intent import BaseIntent
 from intents.status_intent import StatusIntent
+from intents.enable_intent import EnableIntent
 
 sb = SkillBuilder()
 
@@ -23,8 +26,10 @@ logger.setLevel(logging.INFO)
 
 pihole_server = os.environ['PIHOLE_SERVER']
 pihole_images = os.environ['PIHOLE_IMAGES']
+pihole_password = os.environ['PIHOLE_PASSWORD']
 
 pihole_client = pihole.PiHole(pihole_server)
+pihole_client.authenticate(pihole_password)
 
 
 def supports_apl(handler_input):
@@ -32,11 +37,29 @@ def supports_apl(handler_input):
     return handler_input.request_envelope.context.system.device.supported_interfaces.alexa_presentation_apl is not None
 
 
+def client_refresh(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        pihole_client.refresh()
+        return func(*args, **kwargs)
+    return wrapper
+
+
+def handle_base_intent(handler_input: HandlerInput, intent: BaseIntent, should_end_session: bool = True):
+
+    response_builder = handler_input.response_builder.speak(intent.get_speech_message()).set_card(
+        intent.get_card()).set_should_end_session(should_end_session)
+
+    if supports_apl(handler_input):
+        response_builder.add_directive(intent.get_apl_directive())
+
+    return response_builder.response
+
+
 @sb.request_handler(can_handle_func=is_request_type("LaunchRequest"))
+@client_refresh
 def launch_request_handler(handler_input: HandlerInput) -> Response:
     """Handler for Skill Launch."""
-
-    pihole_client.refresh()
 
     status_intent = StatusIntent(pihole_client, pihole_images)
 
@@ -52,20 +75,23 @@ def launch_request_handler(handler_input: HandlerInput) -> Response:
 
 
 @sb.request_handler(can_handle_func=is_intent_name("StatusIntent"))
+@client_refresh
 def status_intent_handler(handler_input: HandlerInput) -> Response:
     """Handler for Status Intent."""
 
-    pihole_client.refresh()
-
     status_intent = StatusIntent(pihole_client, pihole_images)
 
-    response_builder = handler_input.response_builder.speak(status_intent.get_speech_message()).set_card(
-        status_intent.get_card()).set_should_end_session(True)
+    return handle_base_intent(handler_input, status_intent)
 
-    if supports_apl(handler_input):
-        response_builder.add_directive(status_intent.get_apl_directive())
 
-    return response_builder.response
+@sb.request_handler(can_handle_func=is_intent_name("EnableIntent"))
+@client_refresh
+def enable_intent_handler(handler_input: HandlerInput) -> Response:
+    """Handler for Enable Intent."""
+
+    enable_intent = EnableIntent(pihole_client, pihole_images)
+
+    return handle_base_intent(handler_input, enable_intent)
 
 
 @sb.request_handler(can_handle_func=is_intent_name("AMAZON.HelpIntent"))
