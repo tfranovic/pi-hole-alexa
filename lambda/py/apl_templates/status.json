@@ -367,7 +367,7 @@
         "listTemplate1Metadata": {
             "type": "object",
             "objectId": "lt1Metadata",
-            "title": "Pi-hole Status Dashboard",
+            "title": "Pi-hole Alexa",
             "logoUrl": "${logo_url}"
         },
         "listTemplate1ListData": {

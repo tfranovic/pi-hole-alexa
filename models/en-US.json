@@ -1,7 +1,7 @@
 {
     "interactionModel": {
         "languageModel": {
-            "invocationName": "pi hole blocker",
+            "invocationName": "pi hole",
             "intents": [
                 {
                     "name": "AMAZON.FallbackIntent",

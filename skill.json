@@ -5,16 +5,16 @@
         "en-US": {
           "summary": "Alexa skill to control your Pi-hole",
           "examplePhrases": [
-            "Alexa launch Pi Hole Blocker",
-            "pi hole blocker",
-            "pi hole blocker status"
+            "Alexa launch Pi-hole",
+            "Alexa ask Pi-hole for the current status",
+            "Alexa ask Pi-hole to disable"
           ],
-          "name": "Pi-hole Blocker",
+          "name": "Pi-hole",
           "description": "Alexa skill that allows users to interface with their Pi-hole setup"
         }
       },
       "isAvailableWorldwide": true,
-      "testingInstructions": "1) Say 'Alexa ask Pi Hole Blocker the current status'",
+      "testingInstructions": "1) Say 'Alexa ask Pi-hole the current status'",
       "category": "SMART_HOME",
       "distributionCountries": []
     },
