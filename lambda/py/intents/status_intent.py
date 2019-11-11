@@ -1,6 +1,6 @@
 import json
+from decimal import Decimal
 from ask_sdk_model.ui import Card, StandardCard, Image
-from ask_sdk_model.directive import Directive
 from ask_sdk_model.interfaces.alexa.presentation.apl.render_document_directive import RenderDocumentDirective
 
 from intents.base_intent import BaseIntent
@@ -8,7 +8,7 @@ from intents.base_intent import BaseIntent
 
 class StatusIntent(BaseIntent):
 
-    SPEECH_TEMPLATE = "Pi Hole is currently {}. It had {} queries from {} clients, and blocked {} of them ({}%)."
+    SPEECH_TEMPLATE = "Pi Hole is currently {}. In the past 24 hours it had {} queries from {} clients, and blocked {} of them ({}%)."
 
     CARD_TEXT_TEMPLATE = "Status: {}\n" \
                          "Total Queries: {} ({} clients)\n" \
@@ -18,7 +18,7 @@ class StatusIntent(BaseIntent):
     def get_speech_message(self) -> str:
         status_message = StatusIntent.SPEECH_TEMPLATE.format(self.get_client().status, self.get_client().total_queries,
                                                              self.get_client().unique_clients, self.get_client().blocked,
-                                                             self.get_client().ads_percentage)
+                                                             Decimal(self.get_client().ads_percentage).normalize())
 
         return status_message
 
@@ -32,7 +32,7 @@ class StatusIntent(BaseIntent):
             ),
             text=StatusIntent.CARD_TEXT_TEMPLATE.format(self.get_client().status, self.get_client().total_queries,
                                                         self.get_client().unique_clients, self.get_client().blocked,
-                                                        self.get_client().ads_percentage)
+                                                        Decimal(self.get_client().ads_percentage).normalize())
         )
 
         return card
@@ -41,7 +41,7 @@ class StatusIntent(BaseIntent):
 
         with open('apl_templates/status.json') as status_json_file:
             status_json_doc = status_json_file.read() \
-                .replace("${logo_url}", self.get_images_url() + "/logo.png") \
+                .replace("${logo_url}", self.get_images_url() + "/logo_" + self.get_client().status + ".png") \
                 .replace("${total_queries}", self.get_client().total_queries) \
                 .replace("${total_clients}", self.get_client().total_clients) \
                 .replace("${total_queries_image}", self.get_images_url() + "/globe.jpg") \
@@ -49,7 +49,7 @@ class StatusIntent(BaseIntent):
                 .replace("${blocked_queries}", self.get_client().blocked) \
                 .replace("${blocked_queries_image}", self.get_images_url() + "/hand.jpg") \
                 .replace("${blocked_queries_image_large}", self.get_images_url() + "/hand.jpg") \
-                .replace("${blocked_percent}", self.get_client().ads_percentage) \
+                .replace("${blocked_percent}", str(Decimal(self.get_client().ads_percentage).normalize())) \
                 .replace("${blocked_percent_image}", self.get_images_url() + "/pie.jpg") \
                 .replace("${blocked_percent_image_large}", self.get_images_url() + "/pie.jpg") \
                 .replace("${blocked_domains}", self.get_client().domain_count) \
