@@ -43,7 +43,7 @@ class StatusIntent(BaseIntent):
             status_json_doc = status_json_file.read() \
                 .replace("${logo_url}", self.get_images_url() + "/logo_" + self.get_client().status + ".png") \
                 .replace("${total_queries}", self.get_client().total_queries) \
-                .replace("${total_clients}", self.get_client().total_clients) \
+                .replace("${total_clients}", self.get_client().unique_clients) \
                 .replace("${total_queries_image}", self.get_images_url() + "/globe.jpg") \
                 .replace("${total_queries_image_large}", self.get_images_url() + "/globe.jpg") \
                 .replace("${blocked_queries}", self.get_client().blocked) \
